@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
+
+<title>Tanya's 40-Day Tech Planner</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Inter,Arial,sans-serif;
+    background:#f5f6f8;
+    color:#171717;
+}
+
+button,input{
+    font:inherit;
+}
+
+header{
+    background:#111827;
+    color:white;
+    padding:22px 16px 18px;
+}
+
+.header-container,
+.container{
+    max-width:900px;
+    margin:auto;
+}
+
+.title{
+    font-size:25px;
+    font-weight:800;
+}
+
+.subtitle{
+    margin-top:5px;
+    color:#cbd5e1;
+    font-size:14px;
+}
+
+.progress-container{
+    margin-top:18px;
+}
+
+.progress-background{
+    width:100%;
+    height:9px;
+    background:#ffffff25;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:white;
+    border-radius:20px;
+    transition:.3s;
+}
+
+.progress-info{
+    display:flex;
+    justify-content:space-between;
+    margin-top:7px;
+    font-size:12px;
+    color:#cbd5e1;
+}
+
+.container{
+    padding:15px;
+}
+
+.tabs{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding:4px 0 15px;
+}
+
+.tabs::-webkit-scrollbar{
+    display:none;
+}
+
+.tab{
+    flex-shrink:0;
+    border:1px solid #ddd;
+    background:white;
+    padding:10px 15px;
+    border-radius:25px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+}
+
+.tab.active{
+    background:#111827;
+    color:white;
+    border-color:#111827;
+}
+
+.track{
+    display:none;
+}
+
+.track.active{
+    display:block;
+}
+
+.track-title{
+    font-size:22px;
+    font-weight:800;
+}
+
+.track-description{
+    color:#6b7280;
+    font-size:13px;
+    margin-top:5px;
+}
+
+.track-progress{
+    margin-top:8px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.playlist-button{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    background:#111827;
+    color:white;
+    padding:10px 14px;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:600;
+    margin:15px 0;
+}
+
+.day-card{
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:16px;
+    margin-bottom:15px;
+    overflow:hidden;
+}
+
+.day-card.completed{
+    border-color:#9ca3af;
+}
+
+.day-header{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:16px;
+}
+
+.day-number{
+    width:43px;
+    height:43px;
+    border-radius:12px;
+    background:#111827;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    flex-shrink:0;
+}
+
+.day-name{
+    font-weight:750;
+    font-size:16px;
+}
+
+.day-status{
+    color:#777;
+    font-size:12px;
+    margin-top:4px;
+}
+
+.section-label{
+    padding:10px 16px;
+    background:#f8f8f8;
+    border-top:1px solid #eee;
+    border-bottom:1px solid #eee;
+    font-size:12px;
+    font-weight:700;
+    color:#555;
+    text-transform:uppercase;
+}
+
+.tasks{
+    padding:0 16px 12px;
+}
+
+.task{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:10px 0;
+    border-bottom:1px solid #f0f0f0;
+    font-size:14px;
+    cursor:pointer;
+}
+
+.task:last-child{
+    border-bottom:none;
+}
+
+.task input{
+    width:19px;
+    height:19px;
+    flex-shrink:0;
+    cursor:pointer;
+}
+
+.task.completed span{
+    text-decoration:line-through;
+    color:#9ca3af;
+}
+
+.resources{
+    background:#fafafa;
+    border-top:1px solid #eee;
+    padding:12px 16px 15px;
+}
+
+.resources-title{
+    font-size:12px;
+    color:#777;
+    margin-bottom:7px;
+}
+
+.resource-link{
+    display:inline-block;
+    background:#111827;
+    color:white;
+    text-decoration:none;
+    padding:8px 11px;
+    border-radius:8px;
+    font-size:12px;
+}
+
+.output{
+    padding:12px 16px;
+    background:#f9fafb;
+    border-top:1px solid #eee;
+    font-size:13px;
+}
+
+.output strong{
+    display:block;
+    margin-bottom:4px;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    margin:20px 0 40px;
+}
+
+.action-button{
+    border:1px solid #ddd;
+    background:white;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:13px;
+}
+
+@media(max-width:600px){
+
+    .title{
+        font-size:21px;
+    }
+
+    .container{
+        padding:12px;
+    }
+
+    .day-name{
+        font-size:14px;
+    }
+
+    .task{
+        font-size:13px;
+    }
+
+    .playlist-button{
+        width:100%;
+        justify-content:center;
+    }
+
+    .action-button{
+        flex:1;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<header>
+
+<div class="header-container">
+
+<div class="title">
+Tanya's 40-Day Tech Planner
+</div>
+
+<div class="subtitle">
+AI/ML • DSA • Full Stack • Solidity
+</div>
+
+<div class="progress-container">
+
+<div class="progress-background">
+<div id="progressBar" class="progress-bar"></div>
+</div>
+
+<div class="progress-info">
+
+<span id="progressPercent">0%</span>
+
+<span id="progressCount">
+0 / 40 days
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</header>
+
+
+<div class="container">
+
+<div id="tabs" class="tabs"></div>
+
+<div id="content"></div>
+
+<div class="actions">
+
+<button
+class="action-button"
+onclick="resetProgress()">
+Reset Progress
+</button>
+
+<button
+class="action-button"
+onclick="completeNextDay()">
+Complete Current Day
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   40-DAY COMPLETE ROADMAP
+========================================================= */
+
+const tracks = [
+
+/* =========================================================
+   AI / ML
+========================================================= */
+
+{
+id:"ai",
+name:"🤖 AI / ML",
+
+description:
+"Python → Statistics → ML → DL → Computer Vision → GenAI → Deployment",
+
+playlist:
+"https://www.youtube.com/playlist?list=PLZoTAELRMXVPBTrWtJkn3wWQxZkmTXGwe",
+
+days:[
+
+{
+title:"Python for AI/ML",
+
+tasks:[
+"Python syntax: variables, data types, operators",
+"if/else, for loops, while loops",
+"Functions, lambda, map, filter and reduce",
+"Lists, tuples, sets and dictionaries",
+"String manipulation and file handling",
+"OOP: class, object, inheritance and encapsulation",
+"Exception handling and modules",
+"Virtual environments + pip + Jupyter Notebook"
+],
+
+output:"Build a Python data-analysis notebook."
+},
+
+{
+title:"NumPy + Pandas + Data Handling",
+
+tasks:[
+"NumPy arrays and dimensions",
+"Indexing, slicing and reshaping",
+"Vectorization and broadcasting",
+"Pandas Series and DataFrame",
+"read_csv(), head(), info(), describe()",
+"Filtering, sorting and grouping",
+"Missing values and duplicates",
+"Merge, join and concat",
+"Matplotlib basic plots",
+"EDA workflow"
+],
+
+output:"Perform complete EDA on a dataset."
+},
+
+{
+title:"Statistics + Probability",
+
+tasks:[
+"Mean, median, mode",
+"Range, variance and standard deviation",
+"Percentiles and quartiles",
+"Probability basics",
+"Conditional probability",
+"Bayes theorem",
+"Random variables",
+"Normal distribution",
+"Binomial and Poisson distribution",
+"Correlation and covariance",
+"Outliers and distributions"
+],
+
+output:"Create a statistics notebook with visualizations."
+},
+
+{
+title:"Machine Learning Fundamentals",
+
+tasks:[
+"AI vs ML vs Deep Learning",
+"Supervised vs unsupervised learning",
+"Classification vs regression",
+"Features and labels",
+"Training, validation and test sets",
+"Overfitting and underfitting",
+"Bias vs variance",
+"Data preprocessing",
+"Feature scaling",
+"Cross-validation",
+"Scikit-learn workflow"
+],
+
+output:"Train your first end-to-end ML model."
+},
+
+{
+title:"Regression + Classification",
+
+tasks:[
+"Linear regression",
+"Multiple linear regression",
+"Polynomial regression",
+"Logistic regression",
+"KNN",
+"Decision tree",
+"Random Forest",
+"Naive Bayes",
+"MAE, MSE, RMSE",
+"Accuracy, precision, recall and F1",
+"Confusion matrix",
+"ROC-AUC"
+],
+
+output:"Build one regression + one classification project."
+},
+
+{
+title:"Advanced Machine Learning",
+
+tasks:[
+"Random Forest in depth",
+"Gradient Boosting",
+"XGBoost concepts",
+"AdaBoost basics",
+"K-Means clustering",
+"Hierarchical clustering",
+"DBSCAN concept",
+"PCA",
+"Feature selection",
+"Hyperparameter tuning",
+"GridSearchCV / RandomizedSearchCV"
+],
+
+output:"Compare multiple ML algorithms on one dataset."
+},
+
+{
+title:"Deep Learning",
+
+tasks:[
+"Neuron and perceptron",
+"Activation functions",
+"Neural network architecture",
+"Forward propagation",
+"Backpropagation",
+"Loss functions",
+"Optimizers",
+"Learning rate",
+"Epochs and batch size",
+"TensorFlow/PyTorch basics",
+"Train/validation curves"
+],
+
+output:"Build and train a neural network."
+},
+
+{
+title:"Computer Vision + YOLO + OCR",
+
+tasks:[
+"Image representation",
+"OpenCV image reading",
+"Resize, crop and threshold",
+"Edge detection",
+"Contours",
+"Image augmentation",
+"CNN architecture",
+"Object detection",
+"YOLO concepts",
+"YOLOv5/YOLOv8 workflow",
+"OCR concepts",
+"OpenCV + OCR pipeline"
+],
+
+output:"Create a small object detection/OCR application."
+},
+
+{
+title:"GenAI + Deployment + MLOps",
+
+tasks:[
+"Transformers fundamentals",
+"Embeddings",
+"LLM basics",
+"Prompt engineering",
+"RAG concept",
+"FastAPI",
+"Streamlit",
+"Model serialization",
+"REST API for ML",
+"Docker basics",
+"Git/GitHub for ML",
+"Deploy an ML project"
+],
+
+output:"Deploy one AI/ML project with a usable UI/API."
+}
+
+]
+},
+
+
+/* =========================================================
+   DSA
+========================================================= */
+
+{
+id:"dsa",
+name:"💻 DSA / Java",
+
+description:
+"Java → Data Structures → Algorithms → LeetCode → Interviews",
+
+playlist:
+"https://www.youtube.com/playlist?list=PLgUwDviBIf0rENwdL0nEH0uGom9no0nyB",
+
+days:[
+
+{
+title:"Complexity + Arrays",
+
+tasks:[
+"Java input/output",
+"Arrays and ArrayList",
+"Time complexity Big-O",
+"Space complexity",
+"Two Sum",
+"Best Time to Buy and Sell Stock",
+"Contains Duplicate",
+"Maximum Subarray",
+"Move Zeroes",
+"Majority Element",
+"Missing Number"
+],
+
+output:"Solve at least 8 array problems."
+},
+
+{
+title:"Strings + Hashing",
+
+tasks:[
+"String and StringBuilder",
+"Character frequency",
+"HashMap",
+"HashSet",
+"Valid Anagram",
+"Valid Palindrome",
+"First Unique Character",
+"Ransom Note",
+"Isomorphic Strings",
+"Group Anagrams",
+"Longest Substring Without Repeating Characters"
+],
+
+output:"Solve 8 string/hashing problems."
+},
+
+{
+title:"Linked Lists",
+
+tasks:[
+"Node structure",
+"Traversal",
+"Insertion",
+"Deletion",
+"Reverse Linked List",
+"Middle of Linked List",
+"Linked List Cycle",
+"Merge Two Sorted Lists",
+"Remove Nth Node",
+"Palindrome Linked List",
+"Intersection of Linked Lists",
+"Add Two Numbers"
+],
+
+output:"Implement a LinkedList from scratch in Java."
+},
+
+{
+title:"Stack + Queue",
+
+tasks:[
+"Stack using array",
+"Stack using Java Stack",
+"Queue basics",
+"Queue using array",
+"Deque",
+"Valid Parentheses",
+"Min Stack",
+"Next Greater Element",
+"Daily Temperatures",
+"Evaluate Reverse Polish Notation",
+"Largest Rectangle in Histogram"
+],
+
+output:"Solve 6+ stack/queue problems."
+},
+
+{
+title:"Sorting + Binary Search",
+
+tasks:[
+"Bubble sort",
+"Selection sort",
+"Insertion sort",
+"Merge sort",
+"Quick sort concept",
+"Binary search",
+"Search Insert Position",
+"First and Last Position",
+"Search Rotated Sorted Array",
+"Minimum in Rotated Array",
+"Square Root",
+"Koko Eating Bananas",
+"Shipping Capacity"
+],
+
+output:"Implement binary search + merge sort."
+},
+
+{
+title:"Recursion + Backtracking",
+
+tasks:[
+"Recursion basics",
+"Base case",
+"Recursive tree",
+"Stack during recursion",
+"Factorial",
+"Fibonacci",
+"Power",
+"Subsets",
+"Permutations",
+"Combination Sum",
+"Generate Parentheses",
+"Palindrome Partitioning"
+],
+
+output:"Solve 6 recursion/backtracking problems."
+},
+
+{
+title:"Trees + BST",
+
+tasks:[
+"Binary tree structure",
+"Preorder traversal",
+"Inorder traversal",
+"Postorder traversal",
+"Level order traversal",
+"Height/depth",
+"Diameter",
+"Balanced tree",
+"Lowest Common Ancestor",
+"BST insertion",
+"Validate BST",
+"Kth Smallest"
+],
+
+output:"Implement all four tree traversals."
+},
+
+{
+title:"Heap + Greedy + Intervals",
+
+tasks:[
+"PriorityQueue in Java",
+"Min heap",
+"Max heap",
+"Kth Largest Element",
+"Top K Frequent Elements",
+"K Closest Points",
+"Last Stone Weight",
+"Merge Intervals",
+"Insert Interval",
+"Non-overlapping Intervals",
+"Jump Game",
+"Jump Game II"
+],
+
+output:"Solve 8 heap/greedy/interval problems."
+},
+
+{
+title:"Graphs",
+
+tasks:[
+"Graph representation",
+"Adjacency matrix",
+"Adjacency list",
+"BFS",
+"DFS",
+"Number of Islands",
+"Flood Fill",
+"Number of Provinces",
+"Rotting Oranges",
+"Clone Graph",
+"Course Schedule",
+"Topological sort",
+"Shortest path basics"
+],
+
+output:"Implement BFS and DFS from scratch."
+},
+
+{
+title:"Dynamic Programming + Revision",
+
+tasks:[
+"DP concept",
+"Memoization",
+"Tabulation",
+"Climbing Stairs",
+"House Robber",
+"House Robber II",
+"Coin Change",
+"Unique Paths",
+"Decode Ways",
+"Longest Increasing Subsequence",
+"Longest Common Subsequence",
+"Partition Equal Subset Sum",
+"Revise weak topics",
+"Solve 10 mixed LeetCode problems"
+],
+
+output:"Complete a timed DSA mock interview."
+}
+
+]
+},
+
+
+/* =========================================================
+   FULL STACK
+========================================================= */
+
+{
+id:"fullstack",
+name:"🌐 Full Stack",
+
+description:
+"HTML/CSS/JS → React → Node → Express → MongoDB → JWT → Deployment",
+
+playlist:
+"https://www.youtube.com/results?search_query=freeCodeCamp+React+Node+Express+MongoDB+Full+Stack",
+
+days:[
+
+{
+title:"HTML + CSS",
+
+tasks:[
+"HTML document structure",
+"Semantic HTML",
+"Forms and inputs",
+"Tables and lists",
+"CSS selectors",
+"Box model",
+"Display and positioning",
+"Flexbox",
+"CSS Grid",
+"Responsive design",
+"Media queries"
+],
+
+output:"Build a responsive portfolio landing page."
+},
+
+{
+title:"JavaScript Fundamentals",
+
+tasks:[
+"let, const and data types",
+"Functions and arrow functions",
+"Arrays and objects",
+"map, filter and reduce",
+"Destructuring",
+"Spread/rest operator",
+"DOM manipulation",
+"Events",
+"Promises",
+"async/await",
+"try/catch",
+"ES modules"
+],
+
+output:"Build a JavaScript CRUD mini app."
+},
+
+{
+title:"React Fundamentals",
+
+tasks:[
+"React setup",
+"JSX",
+"Components",
+"Props",
+"State",
+"Events",
+"Conditional rendering",
+"Lists and keys",
+"useState",
+"useEffect",
+"Forms",
+"Component reuse"
+],
+
+output:"Build a React dashboard."
+},
+
+{
+title:"React Advanced + APIs",
+
+tasks:[
+"React Router",
+"Nested routes",
+"Dynamic routes",
+"API calls",
+"fetch",
+"Axios",
+"Loading states",
+"Error states",
+"Context API",
+"Custom hooks",
+"Environment variables"
+],
+
+output:"Build a React application using a public API."
+},
+
+{
+title:"Node.js + Express",
+
+tasks:[
+"Node.js runtime",
+"npm",
+"package.json",
+"Modules",
+"Express setup",
+"Routes",
+"Request and response",
+"Middleware",
+"Route parameters",
+"Query parameters",
+"HTTP status codes",
+"Error handling"
+],
+
+output:"Build a Student REST API."
+},
+
+{
+title:"REST API + CRUD",
+
+tasks:[
+"REST architecture",
+"GET",
+"POST",
+"PUT",
+"PATCH",
+"DELETE",
+"Controllers",
+"CRUD operations",
+"Postman",
+"API validation",
+"Error responses",
+"API folder structure"
+],
+
+output:"Complete a production-style CRUD REST API."
+},
+
+{
+title:"MongoDB + Mongoose",
+
+tasks:[
+"MongoDB concepts",
+"Database",
+"Collections",
+"Documents",
+"MongoDB Atlas",
+"Mongoose",
+"Schema",
+"Model",
+"CRUD queries",
+"find/findOne",
+"updateOne",
+"deleteOne",
+"Indexes",
+"Relationships"
+],
+
+output:"Connect your Express API to MongoDB."
+},
+
+{
+title:"Authentication + Security",
+
+tasks:[
+"Authentication vs authorization",
+"Password hashing",
+"bcrypt",
+"JWT",
+"Access tokens",
+"Protected routes",
+"Role-based access",
+"Cookies",
+"CORS",
+"Environment variables",
+"Input validation",
+"Basic API security"
+],
+
+output:"Build login/register + protected dashboard."
+},
+
+{
+title:"Professional Full Stack Architecture",
+
+tasks:[
+"MVC architecture",
+"Controllers",
+"Services",
+"Routes",
+"Middleware",
+"Validation",
+"Centralized errors",
+"Reusable React components",
+"Frontend service layer",
+"API integration",
+"Admin dashboard",
+"Student dashboard"
+],
+
+output:"Build a complete Student/College Management System."
+},
+
+{
+title:"Git + Docker + Deployment",
+
+tasks:[
+"Git init",
+"Git add/commit",
+"Branches",
+"Pull requests",
+"GitHub",
+"Environment variables",
+"Docker fundamentals",
+"Dockerfile",
+"MongoDB Atlas",
+"Deploy backend",
+"Deploy frontend",
+"Write professional README",
+"Add screenshots + live link"
+],
+
+output:"Deploy your full-stack project and add it to GitHub."
+}
+
+]
+},
+
+
+/* =========================================================
+   SOLIDITY
+========================================================= */
+
+{
+id:"solidity",
+name:"⛓️ Solidity / Web3",
+
+description:
+"Blockchain → Solidity → Smart Contracts → Security → Ethers.js → DApp",
+
+playlist:
+"https://www.youtube.com/results?search_query=Patrick+Collins+Solidity+course",
+
+days:[
+
+{
+title:"Blockchain + Ethereum Fundamentals",
+
+tasks:[
+"What is blockchain",
+"Blocks and transactions",
+"Decentralization",
+"Consensus basics",
+"Ethereum",
+"Smart contracts",
+"Gas",
+"Wallets",
+"Private/public keys",
+"MetaMask",
+"Remix IDE",
+"Write Hello World contract"
+],
+
+output:"Deploy your first Solidity contract in Remix."
+},
+
+{
+title:"Solidity Variables + Functions",
+
+tasks:[
+"uint/int",
+"bool",
+"address",
+"strings",
+"bytes",
+"arrays",
+"Mappings",
+"Structs",
+"Function visibility",
+"view",
+"pure",
+"payable",
+"storage",
+"memory",
+"calldata",
+"msg.sender"
+],
+
+output:"Build a Student Registry contract."
+},
+
+{
+title:"Arrays + Mappings + Structs",
+
+tasks:[
+"Fixed arrays",
+"Dynamic arrays",
+"Mapping syntax",
+"Nested mappings",
+"Struct creation",
+"Struct arrays",
+"Struct mappings",
+"Add student",
+"Get student",
+"Update student",
+"Delete student"
+],
+
+output:"Complete Student Registration smart contract."
+},
+
+{
+title:"Modifiers + Events + Errors",
+
+tasks:[
+"Function modifiers",
+"onlyOwner",
+"require",
+"assert",
+"revert",
+"Custom errors",
+"Events",
+"Indexed parameters",
+"Constructor",
+"constant",
+"immutable",
+"Access control"
+],
+
+output:"Build an Admin-controlled College contract."
+},
+
+{
+title:"Inheritance + Interfaces + Libraries",
+
+tasks:[
+"Contract inheritance",
+"Base contracts",
+"Derived contracts",
+"virtual",
+"override",
+"Interfaces",
+"External contracts",
+"Libraries",
+"Using libraries",
+"Abstract contracts"
+],
+
+output:"Create reusable smart-contract architecture."
+},
+
+{
+title:"Ether + Payments",
+
+tasks:[
+"msg.sender",
+"msg.value",
+"address(this)",
+"payable address",
+"Payable functions",
+"receive()",
+"fallback()",
+"Sending Ether",
+"Balance",
+"Withdraw functions",
+"Payment contract"
+],
+
+output:"Build a Hostel Fee Payment contract."
+},
+
+{
+title:"Smart Contract Security",
+
+tasks:[
+"Reentrancy",
+"Checks-Effects-Interactions",
+"Access control vulnerabilities",
+"tx.origin",
+"Integer overflow/underflow",
+"Front-running",
+"Denial of Service",
+"External calls",
+"Oracle manipulation",
+"Randomness problems",
+"Gas-related attacks"
+],
+
+output:"Audit your previous contracts and fix vulnerabilities."
+},
+
+{
+title:"Testing + Deployment",
+
+tasks:[
+"Compile contracts",
+"Remix deployment",
+"Contract address",
+"Transaction hash",
+"Gas used",
+"Events/logs",
+"Local blockchain",
+"Hardhat/Foundry concepts",
+"Unit testing",
+"Testnet deployment",
+"Sepolia concepts"
+],
+
+output:"Test and deploy a smart contract."
+},
+
+{
+title:"React + Ethers.js",
+
+tasks:[
+"Provider",
+"Signer",
+"Wallet connection",
+"MetaMask",
+"Contract ABI",
+"Contract address",
+"Read functions",
+"Write functions",
+"Transactions",
+"Wait for confirmation",
+"Events",
+"React integration"
+],
+
+output:"Connect React frontend to your smart contract."
+},
+
+{
+title:"Final Smart College DApp",
+
+tasks:[
+"Design database/state model",
+"Hostel registration contract",
+"Student request structure",
+"Admin approval",
+"Reject request",
+"Events",
+"React dashboard",
+"MetaMask connection",
+"Ethers.js integration",
+"Testing",
+"Deployment",
+"GitHub README"
+],
+
+output:"Complete and deploy your Smart College Web3 DApp."
+}
+
+]
+
+}
+
+];
+
+
+/* =========================================================
+   PROGRESS STORAGE
+========================================================= */
+
+let progress =
+JSON.parse(
+localStorage.getItem("tanyaTechPlanner")
+) || {};
+
+let currentTrack = "ai";
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+function saveProgress(){
+
+localStorage.setItem(
+"tanyaTechPlanner",
+JSON.stringify(progress)
+);
+
+}
+
+
+/* =========================================================
+   TASK ID
+========================================================= */
+
+function taskId(
+trackId,
+dayIndex,
+taskIndex
+){
+
+return `${trackId}-${dayIndex}-${taskIndex}`;
+
+}
+
+
+/* =========================================================
+   DAY COMPLETE
+========================================================= */
+
+function isDayComplete(
+track,
+dayIndex
+){
+
+return track.days[
+dayIndex
+].tasks.every(
+(_,taskIndex)=>
+progress[
+taskId(
+track.id,
+dayIndex,
+taskIndex
+)
+] === true
+);
+
+}
+
+
+/* =========================================================
+   COMPLETED DAYS
+========================================================= */
+
+function completedDays(){
+
+let count=0;
+
+tracks.forEach(track=>{
+
+track.days.forEach(
+(_,dayIndex)=>{
+
+if(
+isDayComplete(
+track,
+dayIndex
+)
+){
+
+count++;
+
+}
+
+});
+
+});
+
+return count;
+
+}
+
+
+/* =========================================================
+   GLOBAL PROGRESS
+========================================================= */
+
+function updateProgress(){
+
+const completed =
+completedDays();
+
+const percent =
+Math.round(
+(completed/40)*100
+);
+
+document.getElementById(
+"progressBar"
+).style.width =
+percent+"%";
+
+document.getElementById(
+"progressPercent"
+).textContent =
+percent+"%";
+
+document.getElementById(
+"progressCount"
+).textContent =
+`${completed} / 40 days`;
+
+}
+
+
+/* =========================================================
+   RENDER TABS
+========================================================= */
+
+function renderTabs(){
+
+const tabs =
+document.getElementById(
+"tabs"
+);
+
+tabs.innerHTML="";
+
+tracks.forEach(track=>{
+
+const button =
+document.createElement(
+"button"
+);
+
+button.className =
+"tab"+
+(
+track.id===currentTrack
+?" active"
+:""
+);
+
+button.textContent =
+track.name;
+
+button.onclick=()=>{
+
+currentTrack=
+track.id;
+
+render();
+
+};
+
+tabs.appendChild(
+button
+);
+
+});
+
+}
+
+
+/* =========================================================
+   RENDER CONTENT
+========================================================= */
+
+function renderContent(){
+
+const content =
+document.getElementById(
+"content"
+);
+
+content.innerHTML="";
+
+
+tracks.forEach(track=>{
+
+const section =
+document.createElement(
+"section"
+);
+
+section.className =
+"track"+
+(
+track.id===currentTrack
+?" active"
+:""
+);
+
+
+const done =
+track.days.filter(
+(_,index)=>
+isDayComplete(
+track,
+index
+)
+).length;
+
+
+section.innerHTML=`
+
+<div class="track-title">
+${track.name}
+</div>
+
+<div class="track-description">
+${track.description}
+</div>
+
+<div class="track-progress">
+${done}/10 days completed
+</div>
+
+<a
+class="playlist-button"
+href="${track.playlist}"
+target="_blank"
+rel="noopener"
+>
+▶ Open YouTube Playlist
+</a>
+
+`;
+
+
+track.days.forEach(
+(day,dayIndex)=>{
+
+const card =
+document.createElement(
+"div"
+);
+
+const completed =
+isDayComplete(
+track,
+dayIndex
+);
+
+card.className =
+"day-card"+
+(
+completed
+?" completed"
+:""
+);
+
+
+const completedTasks =
+day.tasks.filter(
+(_,taskIndex)=>
+progress[
+taskId(
+track.id,
+dayIndex,
+taskIndex
+)
+]
+).length;
+
+
+card.innerHTML=`
+
+<div class="day-header">
+
+<div class="day-number">
+${dayIndex+1}
+</div>
+
+<div>
+
+<div class="day-name">
+Day ${dayIndex+1} —
+${day.title}
+</div>
+
+<div class="day-status">
+${completedTasks}/${day.tasks.length}
+subtopics completed
+</div>
+
+</div>
+
+</div>
+
+<div class="section-label">
+📚 Important Subtopics
+</div>
+
+<div class="tasks"></div>
+
+<div class="output">
+
+<strong>
+🎯 Day Output
+</strong>
+
+${day.output}
+
+</div>
+
+<div class="resources">
+
+<div class="resources-title">
+🎥 Learning Resource
+</div>
+
+<a
+class="resource-link"
+href="${track.playlist}"
+target="_blank"
+rel="noopener"
+>
+YouTube
+</a>
+
+</div>
+
+`;
+
+
+const taskContainer =
+card.querySelector(
+".tasks"
+);
+
+
+day.tasks.forEach(
+(task,taskIndex)=>{
+
+const key =
+taskId(
+track.id,
+dayIndex,
+taskIndex
+);
+
+const checked =
+progress[key]===true;
+
+
+const label =
+document.createElement(
+"label"
+);
+
+label.className =
+"task"+
+(
+checked
+?" completed"
+:""
+);
+
+
+label.innerHTML=`
+
+<input
+type="checkbox"
+${checked?"checked":""}
+/>
+
+<span>
+${task}
+</span>
+
+`;
+
+
+const checkbox =
+label.querySelector(
+"input"
+);
+
+
+checkbox.addEventListener(
+"change",
+()=>{
+
+progress[key]=
+checkbox.checked;
+
+saveProgress();
+
+render();
+
+});
+
+taskContainer.appendChild(
+label
+);
+
+});
+
+
+section.appendChild(
+card
+);
+
+});
+
+
+content.appendChild(
+section
+);
+
+});
+
+}
+
+
+/* =========================================================
+   COMPLETE NEXT DAY
+========================================================= */
+
+function completeNextDay(){
+
+const track =
+tracks.find(
+track=>
+track.id===currentTrack
+);
+
+const next =
+track.days.findIndex(
+(_,index)=>
+!isDayComplete(
+track,
+index
+)
+);
+
+if(next===-1){
+
+alert(
+"All 10 days of this track are complete! 🎉"
+);
+
+return;
+
+}
+
+
+track.days[
+next
+].tasks.forEach(
+(_,taskIndex)=>{
+
+progress[
+taskId(
+track.id,
+next,
+taskIndex
+)
+]=true;
+
+});
+
+
+saveProgress();
+
+render();
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetProgress(){
+
+const confirmReset =
+confirm(
+"Are you sure you want to reset all 40 days?"
+);
+
+if(!confirmReset)
+return;
+
+progress={};
+
+saveProgress();
+
+render();
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(){
+
+renderTabs();
+
+renderContent();
+
+updateProgress();
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+render();
+
+</script>
+
+</body>
+</html>
